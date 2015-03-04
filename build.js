@@ -87,7 +87,7 @@ function makeDir(dir) {
 
 // create the temp directory
 var tmpDir = path.join(__dirname, 'tmp_' + String(Math.round(Math.random() * 10000000000))),
-	destDir = path.join(tmpDir, packageJson.name, packageJson.version);
+	destDir = path.join(tmpDir, 'plugins', packageJson.name, packageJson.version);
 
 fs.existsSync(tmpDir) && nukeDir(tmpDir);
 makeDir(destDir);
@@ -121,7 +121,7 @@ if (packageJson.dependencies) {
 
 function zipFiles() {
 	console.info('Zipping files');
-	var zip = spawn('zip', ['-X', '-r', outFile, packageJson.name], { cwd: tmpDir });
+	var zip = spawn('zip', ['-X', '-r', outFile, 'plugins'], { cwd: tmpDir });
 	zip.stdout.on('data', function () {});
 	zip.stderr.on('data', function () {});
 	zip.on('close', function () {
