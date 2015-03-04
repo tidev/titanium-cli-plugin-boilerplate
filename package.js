@@ -106,10 +106,26 @@ var filename = packageJson.name + '-' + packageJson.version + '.zip',
 
 fs.existsSync(outFile) && fs.unlinkSync(outFile);
 
-var child = spawn('zip', ['-X', '-r', outFile, packageJson.name], { cwd: tmpDir });
-child.stdout.on('data', function () {});
-child.stderr.on('data', function () {});
-child.on('close', function () {
-	nukeDir(tmpDir);
-	console.info('Packaged plugin: %s\n', outFile);
-});
+if (packageJson.dependencies) {
+	console.info('Running npm install');
+	var npm = spawn('npm', ['install'], { cwd: destDir });
+	npm.stdout.on('data', function () {});
+	npm.stderr.on('data', function () {});
+	npm.on('close', function () {
+		zipFiles();
+	});
+} else {
+	console.log('Skipping npm install');
+	zipFiles();
+}
+
+function zipFiles() {
+	console.info('Zipping files');
+	var zip = spawn('zip', ['-X', '-r', outFile, packageJson.name], { cwd: tmpDir });
+	zip.stdout.on('data', function () {});
+	zip.stderr.on('data', function () {});
+	zip.on('close', function () {
+		nukeDir(tmpDir);
+		console.info('Packaged plugin: %s\n', filename);
+	});
+}

@@ -1,5 +1,5 @@
 {
-	"name": "PLUGIN_NAME",
-	"version": "1.0.0",
-	"description": "My Titanium CLI Plugin"
+  "name": "PLUGIN_NAME",
+  "version": "1.0.0",
+  "description": "My Titanium CLI Plugin"
 }
