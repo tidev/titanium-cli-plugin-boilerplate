@@ -35,5 +35,5 @@ installed while packaging the plugin for distribution.
 To package the plugin, run:
 
 ```
-node package.js
+node build.js
 ```
